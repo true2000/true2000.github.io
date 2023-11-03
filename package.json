@@ -1,0 +1,15 @@
+{
+  "name": "power-up-test",
+  "version": "1.0.0",
+  "description": "a test power up",
+  "main": "index.js",
+  "repository": "https://github.com/true2000/power-up-test.git",
+  "author": "true2000 <57641483+true2000@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "parcel build src/html/*.html"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  }
+}
