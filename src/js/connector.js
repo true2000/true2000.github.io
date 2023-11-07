@@ -1,4 +1,5 @@
 console.log("test")
+console.log(Trello.list)
 TrelloPowerUp.initialize({
     'card-buttons': function(t, options){
       return [{
