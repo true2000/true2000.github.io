@@ -3,7 +3,7 @@ var btnCallback = function (t, opts) {
   return t.popup({
     title: 'Snooze Card',
     items: [{
-      text: 'Total Cards '+opts.cards.toString(),
+      text: 'Total Cards '+opts.cards.value,
       callback: function (t, opts) {
 
       }
