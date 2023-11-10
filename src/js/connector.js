@@ -33,7 +33,7 @@ TrelloPowerUp.initialize({
       return t.list('name', 'id')
       .then(function (list) {
         return [{
-          text: "Get List Stats{listname}",
+          text: "Get List Stats"+list.items,
           callback: btnCallback
         }];
       });
