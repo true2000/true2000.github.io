@@ -1,25 +1,4 @@
 console.log("test")
-var btnCallback = function (t, opts) {
-  return t.popup({
-    title: 'Snooze Card',
-    items: [{
-      text: 'Total Cards',
-      callback: function (t, opts) {
-
-      }
-    }, {
-      text: 'In 1 hour',
-      callback: function (t, opts) {
-
-      }
-    }, {
-      text: 'In 2 hours',
-      callback: function (t, opts) {
-
-      }
-    }]
-  });
-};
 TrelloPowerUp.initialize({
     'card-buttons': function(t, options){
       return [{
@@ -32,9 +11,14 @@ TrelloPowerUp.initialize({
     'list-actions': function(t, options){
       return t.list('name', 'id')
       .then(function (list) {
+        var numCards = list.cards.length;
+        var completedCards = list.cards.filter(function(card) {
+          return card.completed.length;
+        });
         return [{
-          text: "Get List Stats"+list.id,
-          callback: btnCallback
+
+          text: "Total Cards: "+numCards,
+          text: "Total Complete: "+completedCards
         }];
       });
     }
