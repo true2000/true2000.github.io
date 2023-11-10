@@ -8,11 +8,18 @@ TrelloPowerUp.initialize({
     },
     // When a card is added to the list 
     // list total name will update by n + 1
-    'list-actions': function(t, options){
-      return t.list('name', 'id', 'cards')
+    'list-actions': function (t) {
+      return t.list('name', 'id')
       .then(function (list) {
         return [{
           text: "Get List Stats",
+          callback: function (t) {
+            // Trello will call this if the user clicks on this action
+            // we could for example open a new popover...
+            t.popup({
+              // ...
+            });
+          }
         }];
       });
     }
