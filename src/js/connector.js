@@ -9,17 +9,17 @@ TrelloPowerUp.initialize({
     // When a card is added to the list 
     // list total name will update by n + 1
     'list-actions': function(t, options){
-      return t.list('name', 'id')
+      return t.list('name', 'id', 'cards')
       .then(function (list) {
         var numCards = list.cards.length;
         var completedCards = list.cards.filter(function(card) {
-          return card.completed.length;
+          return cards.completed.length;
         });
         return [{
           // Displays the total amount of cards
-          text: "Total Cards: "+numCards,
+          text: "Total Cards: "+numCards+" "+ completedCards,
           // Displays the total amount of completed cards
-          text: "Total Complete: "+completedCards
+          //text: "Total Complete: "+completedCards
         }];
       });
     }
