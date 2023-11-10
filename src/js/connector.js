@@ -1,5 +1,25 @@
 console.log("test")
-console.log(Trello.list)
+var btnCallback = function (t, opts) {
+  return t.popup({
+    title: 'Snooze Card',
+    items: [{
+      text: 'Choose Time',
+      callback: function (t, opts) {
+
+      }
+    }, {
+      text: 'In 1 hour',
+      callback: function (t, opts) {
+
+      }
+    }, {
+      text: 'In 2 hours',
+      callback: function (t, opts) {
+
+      }
+    }]
+  });
+};
 TrelloPowerUp.initialize({
     'card-buttons': function(t, options){
       return [{
@@ -14,10 +34,7 @@ TrelloPowerUp.initialize({
       .then(function (list) {
         return [{
           text: "Get List Stats",
-          callback: function (t) {
-            // Trello will call this if the user clicks on this action
-            // we could for example open a new popover...
-          }
+          callback: btnCallback
         }];
       });
     }
