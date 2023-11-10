@@ -3,7 +3,7 @@ var btnCallback = function (t, opts) {
   return t.popup({
     title: 'Snooze Card',
     items: [{
-      text: 'Total Cards '+opts.cards.value,
+      text: 'Total Cards',
       callback: function (t, opts) {
 
       }
@@ -33,7 +33,7 @@ TrelloPowerUp.initialize({
       return t.list('name', 'id')
       .then(function (list) {
         return [{
-          text: "Get List Stats",
+          text: "Get List Stats"+options.cards,
           callback: btnCallback
         }];
       });
