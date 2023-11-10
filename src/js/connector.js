@@ -16,8 +16,9 @@ TrelloPowerUp.initialize({
           return card.completed.length;
         });
         return [{
-
+          // Displays the total amount of cards
           text: "Total Cards: "+numCards,
+          // Displays the total amount of completed cards
           text: "Total Complete: "+completedCards
         }];
       });
