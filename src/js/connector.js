@@ -1,43 +1,13 @@
-console.log("test")
-var numCards = 0
-var cardsComplete = 0
-TrelloPowerUp.initialize({
-    // Testing code
-    'card-buttons': function(t, options){
-      return [{
-        icon: 'https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421',
-        text: 'Estimate Size',
-      }];
-    },
-    // Located on the bullet menu on each list
-    'list-actions': function (l) {
-      // Acesses the name, id and cards for each list
-      return l.list('name','id','cards')
-      .then(function (list) {
-          // Finds the total number of cards for each list
-          numCards = list.cards.length;
-          // Finds the amount of completed cards from each list
-          cardsComplete = list.cards.filter(function(card){
-              return card.dueComplete;
-          }).length
-          // Create a local var that contains the new name
-          var newName = list.name + " ("+ numCards + " total) " + " ("+ cardsComplete + " complete)"
-        // Returns the following values
-        return [{
-          // Title of the action in the bullet menu
-          text: "Total Cards: "+ numCards + " Completed Cards: " + cardsComplete + " New Name: " + newName,
-          // Trello will call this if the user clicks on this action
-          callback: function (l) {
-            // Prints what the new title should be in the console
-            console.log(newName)
-            // Should change the title of the list
-            // stuck having issues
-            //return l.list.name.set(newName);
-          }
-        }];
-      });
-    }
+var Trello = require("node-trello");
+var t = new Trello('96d4cc5b572cddd7e1334f73c48544c0', 'ATTA724953d7de3fa035c1bc7e117f8043548453603f5fe0068b683f2f7f3cdbfa32358D5658');
 
-    // At the start of each month have a new list appear that contains:
-    // *month* *n* *n-i*
+t.get("/1/boards/7bZN9C3M/testing-trello-board/lists", { cards: "open" }, function(err, lists) {
+  if (err) throw err;
+  lists.forEach(function(list) {
+    var cardCount = list.cards.length;
+    var newListName = list.name.replace(/\(\d+\)$/, '') + `(${cardCount})`;
+    t.put(`/1/lists/${list.id}/name`, { value: newListName }, function(err) {
+      if (err) throw err;
+    });
   });
+});
