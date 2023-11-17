@@ -12,5 +12,19 @@
 
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
     <script src="src/js/connector.js"></script>
+    <script>
+      TrelloPowerUp.initialize({
+      'board-buttons': function(t, options) {
+        return [{
+          icon: "https://p7.hiclipart.com/preview/45/824/935/united-states-win-the-white-house-hotel-business-company-refresh-icon.jpg",
+          text: 'Update Board',
+          callback: function(t) {
+            src="src/js/connector.js"
+          }
+        }];
+      }
+    });
+    </script>
+    <script src="src/js/connector.js"></script>
   </body>
 </html>
