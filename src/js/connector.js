@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+/* WORKING CODE
 // Access name of list
 listNamesElement = "KLvU2mDGTQrsWG"
 // Access columns of names
@@ -7,27 +15,7 @@ cardsElement = "T9JQSaXUsHTEzk"
 // Access completed of cards
 completeElement = "BOkIMdOUAQVOQk i0a3_aIBK1HcUl IRBlPpAzmf7j9R l2mAoxP747LETW"
 
-TrelloPowerUp.initialize({
-  'board-buttons': function(t, options){
-    return [{
-      icon: './images/icon.svg',
-      text: 'Update List Names',
-      callback: function(t){
-        return t.lists('all')
-        .then(function(lists){
-          lists.forEach(function(list){
-            var total = list.cards.length;
-            var complete = list.cards.filter(card => card.badges.checkItemsChecked > 0).length;
-            list.name = "Total: "+total+"; Complete: "+complete;
-            Trello.put('/lists/'+list.id, {name: list.name});
-          });
-        });
-      }
-    }];
-  }
-});
-
-/*// Looks for all lists in the board
+// Looks for all lists in the board
 listNames = document.getElementsByClassName(listNamesElement);
 // Looks at all columns in the board
 colContainer = document.getElementsByClassName(colContainerElement);
