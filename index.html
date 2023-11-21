@@ -4,27 +4,10 @@
     <meta charset="utf-8">
   </head>
   <body>
-    <script src="https://p.trellocdn.com/power-up.min.js"></script>
-    <script>
-      TrelloPowerUp.initialize({
-        'board-buttons': function(t, options){
-          return [{
-            icon: './images/icon.svg',
-            text: 'Update List Names',
-            callback: function(t){
-              return t.lists('all')
-              .then(function(lists){
-                lists.forEach(function(list){
-                  var total = list.cards.length;
-                  var complete = list.cards.filter(card => card.badges.checkItemsChecked > 0).length;
-                  list.name = "Total: "+total+"; Complete: "+complete;
-                  t.set('board', 'shared', 'list'+list.id, list.name);
-                });
-              });
-            }
-          }];
-        }
-      });
-    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+    <script src="https://api.trello.com/1/client.js?key={96d4cc5b572cddd7e1334f73c48544c0}"></script>
   </body>
 </html>
