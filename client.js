@@ -17,7 +17,7 @@ var authenticationSuccess = function() {
     error: authenticationFailure
   });
 
-  var myList = '6532d32a46af4acf8b75d964';
+var myList = '6532d32a46af4acf8b75d964';
 
 var creationSuccess = function (data) {
   console.log('Card created successfully.');
