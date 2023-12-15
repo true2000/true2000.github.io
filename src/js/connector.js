@@ -8,6 +8,7 @@ window.TrelloPowerUp.initialize({
         .then(function(lists){
           for (var i = 0; i < lists.length; i++) {
             alert(lists[i].name);
+            return t.set(lists[i].name, 'shared', 'name', 'Test')
           }
         });
       }
