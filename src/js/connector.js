@@ -5,12 +5,11 @@ window.TrelloPowerUp.initialize({
       text: 'Show Alert',
       callback: function(t){
         t.lists('all')
-          .then(function(lists){
-            for (var i = 0; i < lists.length; i++) {
-              var newName = 'New Name ' + (i + 1); // Replace this with your new name logic
-              t.set(lists[i].id, 'shared', 'name', newName);
-            }
-          });
+        .then(function(lists){
+          for (var i = 0; i < lists.length; i++) {
+            alert(lists[i].name);
+          }
+        });
       }
     }];
   }
