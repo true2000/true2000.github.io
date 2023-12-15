@@ -2,28 +2,14 @@ window.TrelloPowerUp.initialize({
   'board-buttons': function(t, options){
     return [{
       icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAnFBMVEVHcEwLFVcUHmkUJ38kMnACASESFEQ4Sn8UHFolM3YgLGwHCjYQHGgjMG8NHncGBzUVH1wBDmAUI24ZSLMRQ7IsVrY5YboBClIwXLsmUrYfTbVAaMEEOrABA0kBE3NOcsRJWo5XdrxggMRIa7kGIH0YQaQsN2oSMpADAzwsS6ARI2cAB2JwisRjerJOaKg7PFFveJYEM6VeaIoSEzxXOAyQAAAAE3RSTlMA/fOyMP7wDBtCbqvLWOPIkfZ5N7AxtwAAAe5JREFUOI2Vktd22zAQREVZlKxuBcASAEGw96Li//+37FLFciLnnMwbeYfD3QEmk//ScjPfLP/Bt152ts7PjmXQGM7b6eIH/j5vuDEg2s1rxwI5M1wn6Hhp2Du5YueIq6Ru317wdZALzdtIGImOj7/4x2cOimVB0RsG6Fj9yaszCMYDL7j4Wvhd3W6/8VVVgmQ8DzyviJX0ky63z3Vsq1KC5ly1QVD40g/DNC2nswefuRngAJwLkdl65EJA+Shs5jaQ4gAo6fuIwxQY17LcPQqUV878NIxJKeOMaVWOlS72jR7zOcsLVOMUQhtDDl1SYesjSKG01kplVYBreJFijAKUYBYd7ucluqqoCOOi49Mw9H1ts+XELTBPKyGlzK6G8myMYUIC4FKriXsCjnkStysr4k6K3IzvcpvNcIYef0cGvx4Nzc2AjoxmmGEExgMWIAIasgHaCDHOmFGb+2Pnk0I/HuocRSvQDqK0b9ciT+GoOAapR0r/FEJfA6iJLkkS4mpsEMNH3QLwMrunBC0xXPsmjkMJHPF+4utj0nVJCgL6ISpqRRVIyO3u67gvGJACjF1HtBM6Mvt1qfZHOkIAi1s6vQDSUwBOUV36vusGj7o+xWk6DLW1z/d2NSc5+L1zOExJh92v79f6/a7FTXfwGyK2RV1Epl/lAAAAAElFTkSuQmCC', // Place the path to your icon image
-      text: 'Update List Names',
+      text: 'Show Alert',
       callback: function(t){
-        return t.lists('all')
-          .then(function(lists){
-            lists.forEach(function(list){
-              t.cards('all', list.id)
-                .then(function(cards){
-                  console.log(list.name);
-                  var total = cards.length;
-                  var complete = cards.filter(function(card){
-                    return card.dueComplete;
-                  }).length;
-                  list.name = "Total: "+total+"; Complete: "+complete;
-                  console.log(list.name);
-                  return t.set(list.id, 'shared', 'name', "Total: "+total+"; Complete: "+complete);
-                });
-            });
-          });
+        alert('Hello, this is your custom message!');
       }
     }];
   }
 });
+
 
 
 
