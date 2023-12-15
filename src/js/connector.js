@@ -1,49 +1,39 @@
-function forLoop(listNames, colContainer, cardsElement){
-  for(i = 0; i<listNames.length; i++){
+// Access name of list
+let listNamesElement = "list-card-title";
+// Access cards of columns
+let cardsElement = "list-card-details";
+
+// Create a MutationObserver instance
+let observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    if (mutation.type === "childList") {
+      updateListNames();
+    }
+  });
+});
+
+// Function to update list names
+function updateListNames() {
+  // Looks for all lists in the board
+  let listNames = document.getElementsByClassName(listNamesElement);
+  // for loop iterates through each list name
+  for(let i = 0; i<listNames.length; i++){
     // Gets the size of all the cards in the current column
-    total = colContainer[i].getElementsByClassName(cardsElement).length.
-    console.log("Total is: "+ total),
-    // Gets the size of all the cards marked as complete in the current column
-    complete = colContainer[i].getElementsByClassName(completeElement).length,
-    console.log("Complete is: "+ complete),
+    let total = listNames[i].parentElement.parentElement.getElementsByClassName(cardsElement).length;
     // Updates the html text with current values
-    listNames[i].textContent = "Total: "+total+"; Complete: "+complete,
-    console.log("New List Title is:\n"+listNames[i].textContent);
+    listNames[i].textContent = "Total: "+total;
   }
 }
 
+// Configuration of the observer
+let config = { childList: true, subtree: true };
 
-TrelloPowerUp.initialize({
-  'board-buttons': function(t, options) {
-    return [{
-      text: 'My Button',
-      callback: function(t) {
-        // Access name of list
-        listNamesElement = "KLvU2mDGTQrsWG",
-        console.log("Found "+ listNamesElement),
-        // Access columns of names
-        colContainerElement = "RD2CmKQFZKidd6",
-        console.log("Found "+ colContainer),
-        // Access cards of columns
-        cardsElement = "T9JQSaXUsHTEzk",
-        console.log("Found "+ cardsElement),
-        // Access completed of cards
-        completeElement = "BOkIMdOUAQVOQk i0a3_aIBK1HcUl IRBlPpAzmf7j9R l2mAoxP747LETW",
-        console.log("Found "+ completeElement),
+// Pass in the target node (in this case, the entire document), as well as the observer options
+observer.observe(document, config);
 
-        console.log("Hello World"),
-        // Looks for all lists in the board
-        listNames = document.getElementsByClassName(listNamesElement),
-        console.log("Assinged listNames: "+ listNames),
-        // Looks at all columns in the board
-        colContainer = document.getElementsByClassName(colContainerElement),
-        console.log("Assinged colContainer: "+ colContainer),
-        // for loop iterates through each list name
-        forLoop(listNames, colContainer, cardsElement);
-      }
-    }];
-  }
-});
+// Call updateListNames initially to update list names at the start
+updateListNames();
+
 
 
 /* WORKING CODE
