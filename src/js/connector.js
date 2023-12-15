@@ -9,10 +9,13 @@ window.TrelloPowerUp.initialize({
             lists.forEach(function(list){
               t.cards('all', list.id)
                 .then(function(cards){
+                  console.log(list.name);
                   var total = cards.length;
                   var complete = cards.filter(function(card){
                     return card.dueComplete;
                   }).length;
+                  list.name = "Total: "+total+"; Complete: "+complete;
+                  console.log(list.name);
                   return t.set(list.id, 'shared', 'name', "Total: "+total+"; Complete: "+complete);
                 });
             });
