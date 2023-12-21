@@ -35,18 +35,13 @@ tpu.initialize({
      * @returns {TrelloBoardButtonOption[]}
      */
     async (t) => {
-      /** @type {TrelloMemberObject} */
-      const member = await t.member("id");
-      /** @type {TrelloBoard} */
-      const board = await t.board("memberships");
-      /** @type {TrelloMembership} */
-      const membership = board.memberships.find(o=>o.idMember === member.id);
-      if(!membership || membership.memberType === "observer") {
-        t.alert({
-          message: "Sorry you are only a guest on this board!",
-          duration: 1,
-        });
-        return []; // no board button for you
+      /** @type {TrelloListObject} */
+      const list = await t.lists("name");
+      /** @type {TrelloLists} */
+      const membership = board.list.find(o=>o.name === list.name);
+      var names = '';
+      for(var i = 0; i < list; i++){
+        names = names + list[i];
       }
       /** @type {TrelloBoardButtonOption} */
       const button = {
@@ -55,7 +50,7 @@ tpu.initialize({
         condition: "always",
         callback: (tt) => {
           tt.alert({
-            message: "You are all paid up!",
+            message: names,
             duration: 1,
           })
         }
