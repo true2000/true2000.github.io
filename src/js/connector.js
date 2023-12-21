@@ -49,12 +49,30 @@ tpu.initialize({
       }
       /** @type {TrelloBoardButtonOption} */
       const button = {
-        text: "hello",
+        text: "Update list names",
         icon: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAF2SURBVDhPtZMxT8JQEMfb0pI2xMbA0JWyNXQEJLHO7VrmfgAHTfgMLMTo0FknDU0TNze+gCbOSmSBwU2hgxMlAevd8wV95GG6+Euu73/v/e/aXlPhX8myrIBBUy4iXRmCIDicTqeeqqoHmKdp+lir1YaDweCeGHZx1u/vHTnOpWEYqSiKGWyRQI17juNc9cFDzNvEUay2ms1bkJtCXjTBE0WRCprFc70TTdO4Rb8DPa7rnoL+odfr6bZtP4HkFm0HeJ+xBrQg4WU+n7eSJLFR5wH8dfC3UJMGy+WyDJNGmQvwC4vFooyaNFAUZVUo/Pm5GdBbLBZXqEkD2Bjpuv6BOg/olSRpRNNv2u32NSzcoW0HeG9gJZAnQOx6/cKsVmc03YlZNWfgPacpi+/7rmma7yC5d8azDnhAb2AmNx6PJ77fGWqaqsmyvF8qleB19c9KpfJqWdZdo9E4juP4gdoJ3J8J6Xa7BgzXQr1er1/CMHwjBwyC8AW6vpgYpmCzMQAAAABJRU5ErkJggg==`, // for card front badges only
         condition: "always",
-        callback: (tt) => {
+        callback: async (tt) => {
+          // store the new list names in the board's private data
+          await tt.set("board", "private", "newNames", ["To Do", "Doing", "Done"]);
+          // get the list of all lists on the board
+          const lists = await tt.lists("id", "name");
+          // get the new names from the board's private data
+          const newNames = await tt.get("board", "private", "newNames");
+          // loop through the lists and update their names
+          for (let i = 0; i < lists.length; i++) {
+            // get the list object
+            const list = lists[i];
+            // get the new name for the list
+            const newName = newNames[i] || list.name; // use the old name if no new name is given
+            // update the list name using the t.set method
+            await tt.set(list.id, "shared", "name", newName);
+          }
+          // refresh the board to see the changes
+          await tt.refresh();
+          // show a success message
           tt.alert({
-            message: "You are all paid up!",
+            message: "List names updated!",
             duration: 1,
           })
         }
@@ -63,6 +81,7 @@ tpu.initialize({
       return [button];
     }
 });
+
 
 
 /* WORKING CODE
