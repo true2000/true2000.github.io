@@ -26,7 +26,7 @@
 
 // This is the code for the power up server
 // It uses the Express framework to handle the requests from Trello
-const express = require("express");
+const express = window.express;
 const app = express();
 
 // This is the URL of the Trello client library, which we need to load in our power up
