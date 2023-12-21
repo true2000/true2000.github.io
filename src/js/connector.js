@@ -24,63 +24,90 @@
   },
 });*/
 
-/** @type {TrelloPowerUp} */
-const tpu = window.TrelloPowerUp;
-tpu.initialize({ 
-  'board-buttons': 
-    /**
-     * Returns the board button
-     * @param {TrelloObject} t 
-     * @returns {TrelloBoardButtonOption[]}
-     */
-    async (t) => {
-      /** @type {TrelloMemberObject} */
-      const member = await t.member("id");
-      /** @type {TrelloBoard} */
-      const board = await t.board("memberships");
-      /** @type {TrelloMembership} */
-      const membership = board.memberships.find(o=>o.idMember === member.id);
-      if(!membership || membership.memberType === "observer") {
-        t.alert({
-          message: "Sorry you are only a guest on this board!",
-          duration: 1,
-        });
-        return []; // no board button for you
-      }
-      /** @type {TrelloBoardButtonOption} */
-      const button = {
-        text: "Update list names",
-        icon: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAF2SURBVDhPtZMxT8JQEMfb0pI2xMbA0JWyNXQEJLHO7VrmfgAHTfgMLMTo0FknDU0TNze+gCbOSmSBwU2hgxMlAevd8wV95GG6+Euu73/v/e/aXlPhX8myrIBBUy4iXRmCIDicTqeeqqoHmKdp+lir1YaDweCeGHZx1u/vHTnOpWEYqSiKGWyRQI17juNc9cFDzNvEUay2ms1bkJtCXjTBE0WRCprFc70TTdO4Rb8DPa7rnoL+odfr6bZtP4HkFm0HeJ+xBrQg4WU+n7eSJLFR5wH8dfC3UJMGy+WyDJNGmQvwC4vFooyaNFAUZVUo/Pm5GdBbLBZXqEkD2Bjpuv6BOg/olSRpRNNv2u32NSzcoW0HeG9gJZAnQOx6/cKsVmc03YlZNWfgPacpi+/7rmma7yC5d8azDnhAb2AmNx6PJ77fGWqaqsmyvF8qleB19c9KpfJqWdZdo9E4juP4gdoJ3J8J6Xa7BgzXQr1er1/CMHwjBwyC8AW6vpgYpmCzMQAAAABJRU5ErkJggg==`, // for card front badges only
-        condition: "always",
-        callback: async (tt) => {
-          // store the new list names in the board's private data
-          await tt.set("board", "private", "newNames", ["To Do", "Doing", "Done"]);
-          // get the list of all lists on the board
-          const lists = await tt.lists("id", "name");
-          // get the new names from the board's private data
-          const newNames = await tt.get("board", "private", "newNames");
-          // loop through the lists and update their names
-          for (let i = 0; i < lists.length; i++) {
-            // get the list object
-            const list = lists[i];
-            // get the new name for the list
-            const newName = newNames[i] || list.name; // use the old name if no new name is given
-            // update the list name using the t.set method
-            await tt.set(list.id, "shared", "name", newName);
-          }
-          // refresh the board to see the changes
-          await tt.refresh();
-          // show a success message
-          tt.alert({
-            message: "List names updated!",
-            duration: 1,
-          })
-        }
-      };
-      // return the button
-      return [button];
-    }
+// This is the code for the power up server
+// It uses the Express framework to handle the requests from Trello
+const express = require("express");
+const app = express();
+
+// This is the URL of the Trello client library, which we need to load in our power up
+const trelloClientUrl = "https://p.trellocdn.com/power-up.min.js";
+
+// This is the function that will be called when the board button is clicked
+// It uses the Trello client library to create a new card on the board
+const onBoardButtonClick = async (t) => {
+  // Get the board id and name from the power up context
+  const boardId = t.getContext().board;
+  const boardName = await t.board("name").get("name");
+
+  // Create a new card with a default title and description
+  // You can customize these values as you want
+  const cardTitle = "New card from power up";
+  const cardDescription = `This card was created by the power up on the board ${boardName}`;
+
+  // Use the Trello client library to create the card
+  // You can also specify other properties, such as list, labels, members, etc.
+  // See the documentation for more details: https://developer.atlassian.com/cloud/trello/guides/power-ups/client-library/#trello-client-js-library
+  const card = await t.post(`/cards`, {
+    name: cardTitle,
+    desc: cardDescription,
+    idBoard: boardId,
+  });
+
+  // Return a response to the power up
+  // You can either return a simple message, or a URL to redirect the user to the card
+  // See the documentation for more details: https://developer.atlassian.com/cloud/trello/guides/power-ups/capabilities/#board-buttons
+  return {
+    text: `Created card: ${cardTitle}`,
+    url: card.url,
+  };
+};
+
+// This is the main function that handles the power up initialization and requests
+// It uses the power up API to register the capabilities and settings of the power up
+// See the documentation for more details: https://developer.atlassian.com/cloud/trello/guides/power-ups/initializing/
+const powerUpHandler = (t, options) => {
+  return {
+    // This is the board button capability
+    // It defines the icon, text, and callback function of the board button
+    // See the documentation for more details: https://developer.atlassian.com/cloud/trello/guides/power-ups/capabilities/#board-buttons
+    "board-buttons": () => {
+      return [
+        {
+          icon: {
+            dark: `${t.signUrl("./images/icon-white.svg")}`,
+            light: `${t.signUrl("./images/icon-black.svg")}`,
+          },
+          text: "Create Card",
+          callback: onBoardButtonClick,
+        },
+      ];
+    },
+  };
+};
+
+// This is the endpoint that serves the power up client library
+app.use("/power-up.js", (req, res) => {
+  res.redirect(trelloClientUrl);
 });
+
+// This is the endpoint that serves the power up handler function
+app.use("/power-up", (req, res) => {
+  res.json(powerUpHandler);
+});
+
+// This is the endpoint that serves the power up icon
+app.use("/images", express.static("images"));
+
+// This is the endpoint that serves the power up index page
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+
+// This is the code that starts the server and listens for requests
+const listener = app.listen(process.env.PORT, () => {
+  console.log("Your app is listening on port " + listener.address().port);
+});
+
 
 
 
