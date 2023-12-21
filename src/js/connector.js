@@ -5,7 +5,7 @@ TrelloPowerUp.initialize({
         icon: "https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421",
         text: "Hello World",
         callback: function (t) {
-          return t.card('name').then(card => alert('Hello from ${card.name} (id: ${card.id})!'))
+          return t.card('id','name').then(card => alert('Hello from ${card.name} (id: ${card.id})!'))
         },
       },
     ];
