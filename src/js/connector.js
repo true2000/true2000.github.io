@@ -3,12 +3,20 @@ TrelloPowerUp.initialize({
     return [
       {
         icon: "https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421",
-        text: "Estimate Size",
+        text: "Hello World",
         callback: function (t) {
-          return t.popup({
-            title: "Estimation",
-            url: "estimate.html",
-          });
+          return t.card('name').then(card => alert('Hello from ${card.name} (id: ${card.id})!'))
+        },
+      },
+    ];
+  },
+  "board-buttons": function (t, options) {
+    return [
+      {
+        icon: "https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421",
+        text: "Board Button",
+        callback: function (t) {
+          return t.board().then(board => alert('Hello World!'))
         },
       },
     ];
