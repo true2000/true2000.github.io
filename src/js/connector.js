@@ -1,20 +1,29 @@
-var attachOnClick = function (t, opts) {
-  return t.attach({
-    name: 'The name for the attachment', // optional
-    url: 'https://developer.atlassian.com/cloud/trello/' // required
-  });
-}
-window.TrelloPowerUp.initialize({
-  'card-buttons': function (t, opts) {
-    t.memberCanWriteToModel('card') === true
-    return [{
-      
-      icon: './images/icon.svg',
-      text: 'Attach a Thing',
-      callback: attachOnClick
-    }];
+// Load the Trello client.js library
+TrelloPowerUp.initialize({
+  // Define the callback function for the board button
+  'renameList': function(t, options){
+    // Get the current board and list id from the context
+    var boardId = options.context.board;
+    var listId = options.context.list;
+    // Prompt the user to enter a new name for the list
+    return t.popup({
+      title: 'Rename List',
+      items: [{
+        text: 'Enter a new name',
+        type: 'input',
+        callback: function(t, input){
+          // Update the list name using the Trello REST API
+          return t.put('/1/lists/' + listId, {name: input})
+          .then(function(){
+            // Close the popup
+            return t.closePopup();
+          });
+        }
+      }]
+    });
   }
 });
+
 
 
 
