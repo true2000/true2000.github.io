@@ -1,28 +1,19 @@
-TrelloPowerUp.initialize({
-  "card-buttons": function (t, options) {
-    return [
-      {
-        icon: "https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421",
-        text: "Hello World",
-        callback: function (t) {
-          return t.card('id','name').then(card => alert('Hello from' + card.name + '(id:' + card.id + '!'))
-        },
-      },
-    ];
-  },
-  "board-buttons": function (t, options) {
-    return [
-      {
-        icon: "https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421",
-        text: "Board Button",
-        callback: function (t) {
-          return t.lists("all").then(function (lists) {
-            console.log(JSON.stringify(lists, null, 2));
-          });
-        },
-      },
-    ];
-  },
+var attachOnClick = function (t, opts) {
+  return t.attach({
+    name: 'The name for the attachment', // optional
+    url: 'https://developer.atlassian.com/cloud/trello/' // required
+  });
+}
+window.TrelloPowerUp.initialize({
+  'card-buttons': function (t, opts) {
+    t.memberCanWriteToModel('card') === true
+    return [{
+      
+      icon: './images/icon.svg',
+      text: 'Attach a Thing',
+      callback: attachOnClick
+    }];
+  }
 });
 
 
