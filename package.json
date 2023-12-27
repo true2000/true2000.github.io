@@ -1,14 +1,15 @@
 {
-  "name": "list-renamer",
-  "description": "A power-up that renames a list with a push of a board button",
-  "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAolBMVEVHcEwbIlMMEkESHF4mNXkDAiEeLoA3RIEqN3EWIGETI3cPIX8OE0sKCzUJFV4BAB8KDEIPGmoXR7MqVrcxXLs4X7gOQbICDFQdS7RPcsAjULYAE3QABU0+ZsBphsUGIX86UplCZ7oCAz8BOLAvU7JIbsNaesASNJAkSqoMH2gqLVIlL20YQKM7RnRMZqovSJdweZZTXoQ1O18sQogeH0Vnea08mzQCAAAAEnRSTlMAU3abPfp6DBkmvOHgxe3h9tvKL1SxAAABnElEQVQokY2S2XKcMBBFmXgIOF4jtVYWIUDsMGv+/9fSYiaxnXGqfN/g1EXqQwfBF7N9FM/b/7HScCM+p/Gr4Zya5/gTFj32hFdMJT+jW/jUS1kV3Krkxw27E5ISM9dc3VJkTLbl8ItrpHcf2LeUME36ND0wCrlKvr9jm3KylEiEs4VM5SzZ/MO47ER6QqaY7ZI/427D1jLJOQeowSllNYEuub8MvzLCuWaZU02jgBNJJ+NlRC8GABEhp3mex6GgvMIHPT2gjKdjZlld16xLyzQVYqm7rq6BZeYhCMJzcclYIhJi3O12RbEsi8GBwqXCIwAyEB6OXVVVhGKzRfiy11JqClnWI0xnihBvpHViomBzzqkvOtfjmemscSZktF01hfvMx7nl1LbtRIiv0bWIXodcKeVcoxgegEFE6XS1H+6bvFGNonJt0TUmuWwEVjEK9ArxAgxg+vtTw0OeN2jicDiiIGCMgbm69VU0almHtz0vzEe/bUNU7v2HdyVKyJ2zlpnkbUM35TAcj96s6EdM/2EVgvj+kjiOI8z17W9xJjbIntR32QAAAABJRU5ErkJggg==",
-  "capabilities": {
-    "board-buttons": [
-      {
-        "text": "Rename List",
-        "callback": "renameList",
-        "condition": "edit"
-      }
-    ]
+  "name": "power-up-test",
+  "version": "1.0.0",
+  "description": "a test power up",
+  "main": "index.js",
+  "repository": "https://github.com/true2000/power-up-test.git",
+  "author": "true2000 <57641483+true2000@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "parcel build src/html/*.html"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
   }
 }
